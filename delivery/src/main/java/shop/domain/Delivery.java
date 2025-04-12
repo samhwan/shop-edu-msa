@@ -34,10 +34,15 @@ public class Delivery {
         DeliveryStarted deliveryStarted = new DeliveryStarted(this);
         deliveryStarted.publishAfterCommit();
 
+        
+    }
+
+    @PreRemove
+    public void onPreRemove(){
         DeliveryCanceled deliveryCanceled = new DeliveryCanceled(this);
         deliveryCanceled.publishAfterCommit();
     }
-
+    
     public static DeliveryRepository repository() {
         DeliveryRepository deliveryRepository = DeliveryApplication.applicationContext.getBean(
             DeliveryRepository.class
@@ -49,11 +54,15 @@ public class Delivery {
     public static void startDelivery(OrderPlaced orderPlaced) {
         //implement business logic here:
 
-        /** Example 1:  new item 
+
+        // 생성자 또는 값이 필요
         Delivery delivery = new Delivery();
+        delivery.setOrderId(orderPlaced.getId());
+        delivery.setCustomerid(orderPlaced.getCustomerid());
+        //delivery.setAddress(orderPlaced.getA);
+        delivery.setStatus("Delivery STARTED");
         repository().save(delivery);
 
-        */
 
         /** Example 2:  finding and process
         
